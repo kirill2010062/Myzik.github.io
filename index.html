@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <!-- Фоновые Blobs для эффекта Liquid Glass -->
+    <div class="bg-mesh">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <!-- ЭКРАН АВТОРИЗАЦИИ -->
     <div id="auth-screen" class="auth-container">
         <div class="auth-card">
@@ -59,27 +66,61 @@
 
     <!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ -->
     <div id="app-screen" class="app-container" style="display: none;">
-        <aside class="sidebar">
-            <div class="logo">🎵 FreeMusic</div>
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active" data-page="home"><i class="fas fa-home"></i> Главная</a>
-                <a href="#" class="nav-item" data-page="search"><i class="fas fa-search"></i> Поиск</a>
-                <a href="#" class="nav-item" data-page="profile"><i class="fas fa-user"></i> Профиль</a>
-            </nav>
-            
-            <div class="user-mini-card">
-                <div class="user-avatar" id="sidebar-avatar">👤</div>
-                <div class="user-info-mini">
-                    <span id="sidebar-username">Гость</span>
-                    <button id="logout-sidebar" class="logout-icon-btn" title="Выйти"><i class="fas fa-sign-out-alt"></i></button>
+        <!-- LIQUID GLASS НАВИГАЦИЯ -->
+        <nav class="liquid-nav" id="nav">
+            <div class="liquid-glare-container">
+                <div class="liquid-glare" id="glare"></div>
+            </div>
+
+            <div class="nav-items">
+                <div class="active-pill" id="active-pill"></div>
+
+                <button class="nav-btn active" data-page="home">
+                    <div class="btn-content">
+                        <i class="fas fa-home"></i>
+                        <span>Главная</span>
+                    </div>
+                </button>
+
+                <button class="nav-btn" data-page="search">
+                    <div class="btn-content">
+                        <i class="fas fa-search"></i>
+                        <span>Поиск</span>
+                    </div>
+                </button>
+
+                <button class="nav-btn" data-page="profile">
+                    <div class="btn-content">
+                        <i class="fas fa-user"></i>
+                        <span>Профиль</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Информация о пользователе -->
+            <div class="nav-user-info">
+                <div class="user-avatar-mini" id="nav-avatar">👤</div>
+                <span id="nav-username">Гость</span>
+            </div>
+
+            <button class="theme-btn" id="theme-btn" aria-label="Dark Mode Toggle">
+                <div class="theme-icon-wrapper">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
                 </div>
-            </div>
+            </button>
             
-            <div class="sidebar-footer">
-                <div class="info-text"><i class="fas fa-infinity"></i> Бесплатно</div>
-                <div class="info-text"><i class="fas fa-ban"></i> Без рекламы</div>
-            </div>
-        </aside>
+            <button class="logout-nav-btn" id="logout-nav" title="Выйти">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </nav>
+
+        <!-- Кнопка для открытия плейлиста на мобильных -->
+        <button id="toggle-playlist" class="mobile-playlist-toggle">
+            <i class="fas fa-list"></i>
+        </button>
 
         <main class="main-content">
             <header class="top-bar">
@@ -87,7 +128,6 @@
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" id="search-input" class="search-input" placeholder="Что хочешь послушать?" autocomplete="off">
                 </div>
-                <button id="toggle-playlist" class="mobile-only-btn"><i class="fas fa-list"></i></button>
             </header>
 
             <div id="page-home" class="page-content active">
@@ -149,10 +189,10 @@
             </div>
         </main>
 
-        <aside class="playlist-sidebar">
+        <aside class="playlist-sidebar collapsed">
             <div class="playlist-header">
                 <h2 class="section-title"><i class="fas fa-list"></i> Очередь</h2>
-                <button id="clear-playlist" class="clear-btn" title="Очистить плейлист"><i class="fas fa-trash"></i></button>
+                <button id="clear-playlist" class="clear-btn" title="Очистить плейлист (Q - скрыть/показать)"><i class="fas fa-trash"></i></button>
             </div>
             <div id="playlist-items">
                 <p class="empty-playlist"><i class="fas fa-music"></i> Пусто. Добавьте треки из поиска!</p>
@@ -213,7 +253,7 @@
         </div>
     </div>
 
-    <div id="yt-player" style="position: absolute; top: -9999px; visibility: hidden;"></div>
+    <div id="yt-player"></div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
